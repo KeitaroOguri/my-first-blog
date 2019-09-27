@@ -13,4 +13,32 @@
   <h1>{{ post.title }}</h1>
   <p>{{ post.text|linebreaksbr }}</p>
 </div>
+
+<h2>コメント一覧</h2>
+<a href="{% url 'comment' post.pk %}">コメントする</a>
+<hr>
+{% for comment in post.comment_set.all %}
+{% if comment.is_public %}
+名前:{{ comment.name }}<br>
+テキスト:{{ comment.text }}<br>
+<a href="{% url 'reply' comment.pk %}">返信する</a><br>
+
+{% for reply in comment.reply_set.all %}
+<div style="margin-left:100px;">
+  {% if reply.is_public %}
+  名前:{{ reply.name }}<br>
+  テキスト:{{ reply.text }}<br>
+  {% else %}
+  <p>まだ承認されていません。(返信コメント)</p>
+  {% endif %}
+</div>
+{% endfor %}
+
+{% else %}
+<p>まだ承認されていません。(コメント)</p>
+{% endif %}
+<hr>
+{% endfor %}
+
+
 {% endblock %}
