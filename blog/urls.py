@@ -17,5 +17,4 @@ urlpatterns = [
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("signup/", views.SignUp.as_view(), name="signup"),
     path("comment/<int:pk>/", views.CommentView.as_view(), name="comment"),
-    path("reply/<int:pk>/", views.ReplyView.as_view(), name="reply"),
 ]

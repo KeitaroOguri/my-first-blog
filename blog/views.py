@@ -75,23 +75,3 @@ class CommentView(generic.CreateView):
 
         # 記事詳細にリダイレクト
         return redirect("post_detail", pk=post_pk)
-
-
-class ReplyView(generic.CreateView):
-    """/reply/comment_pk 返信コメント投稿."""
-
-    model = Reply
-    fields = ("name", "text")
-    template_name = "comment_form.html"
-
-    def form_valid(self, form):
-        comment_pk = self.kwargs["pk"]
-        comment = get_object_or_404(Comment, pk=comment_pk)
-
-        # 紐づくコメントを設定する
-        reply = form.save(commit=False)
-        reply.target = comment
-        reply.save()
-
-        # 記事詳細にリダイレクト
-        return redirect("post_detail", pk=comment.target.pk)
